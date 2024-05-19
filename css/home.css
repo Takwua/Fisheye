@@ -1,0 +1,89 @@
+/* Partie 1: Styles pour la section principale des photographes */
+.main_photographers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+/* Partie 2: Styles pour chaque article */
+.main_photographers article {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+}
+
+/* Partie 3: Styles pour les liens */
+.main_photographers article a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Partie 4: Styles pour les miniatures */
+.photographer-thumbnail {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+/* Partie 5: Styles pour les noms */
+.photographer-name {
+    font-family: DM Sans;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 50px;
+    text-align: center;
+    color :var(--color-tertiary); 
+}
+.photographer-location{
+    font-family: DM Sans;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    color :var(--color-primary);
+}
+.photographer-tagline{
+    font-family: DM Sans;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    color: var(--color-dark);
+    
+}
+
+/* Partie 6: Styles pour les prix */
+.photographer-price {
+    color: var(--color-dark-medium);
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+
+}
+
+/* Partie 7: Styles responsifs */
+@media screen and (max-width: 1040px) {
+    .main_photographers article {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 725px) {
+    .main_photographers {
+        margin-top: 30px;
+        gap: 20px;
+    }
+    .main_photographers article {
+        width: 100%;
+    }
+}

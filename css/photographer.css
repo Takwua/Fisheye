@@ -1,0 +1,653 @@
+/* Partie 1 */
+
+/* Style pour la section principale */
+main {
+    padding: 0 120px; 
+}
+
+/* Style pour la section "À propos" */
+.main_about {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    padding: 40px; 
+    margin-top: 20px; 
+    background-color: var(--color-light-medium); 
+}
+
+/* Style pour le bouton CTA (Call to Action) lorsque survolé ou en focus */
+.btn_cta:hover,
+.btn_cta:focus {
+    background-color: var(--color-secondary); 
+    color: var(--color-black); 
+}
+
+/* Style pour les informations du profil du photographe */
+.photographer_profile__infos {
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+/* Style pour la miniature du photographe */
+.photographer_thumbnail {
+    height: clamp(10rem, 20vw, 20rem); 
+    width: clamp(10rem, 20vw, 20rem); 
+}
+
+
+/* Partie 2 */
+
+/* Style pour le formulaire modal */
+.modal_form {
+    position: relative; 
+    border-radius: 5px; 
+    background-color: var(--color-secondary); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 10px; 
+    padding: 20px; 
+    width: 90%; 
+    max-width: 600px; 
+    opacity: 0; 
+    transform: translateY(-150px); 
+    animation: fadeIn .3s ease-in-out forwards;
+}
+
+/* Style pour le titre du formulaire modal */
+.modal_form_title {
+    width: 100%; 
+    font-size: clamp(2rem, 3vw, 4rem); 
+}
+
+/* Style pour le titre du formulaire modal (h2 à l'intérieur) */
+.modal_form_title h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: normal;
+    font-size: clamp(2rem, 3vw, 4rem);
+}
+
+
+/* Style pour le bouton de fermeture du formulaire modal lorsqu'il est survolé */
+.btn_close:hover::before {
+    color: var(--color-primary); 
+}
+
+/* Style pour le bouton de fermeture du formulaire modal lorsqu'il est en focus */
+.btn_close:focus:not(:hover)::before {
+    outline: 2px solid var(--color-primary); 
+}
+
+/* Style pour l'icône du bouton de fermeture du formulaire modal */
+.btn_close::before {
+    content: "\f00d";
+    font-family: "Font Awesome 5 Free";
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 900;
+    color: var(--color-light);
+    font-size: clamp(2rem, 3vw, 3rem);
+}
+
+
+/* Style pour le formulaire à l'intérieur du formulaire modal */
+.modal_form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+
+/* Style pour le contenu du formulaire */
+.form_content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+/* Style pour les libellés du formulaire */
+.form_content label {
+    color: var(--color-label);
+    font-size: clamp(1.8rem, 2vw, 2rem);
+}
+
+
+/* Style pour les champs de saisie du formulaire */
+.form_content input {
+    height: 50px;
+    padding-left: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Style pour la zone de texte du formulaire */
+.form_content textarea {
+    border-radius: 5px;
+    height: 150px;
+    resize: none;
+    padding: 10px;
+}
+
+
+/* Style pour les messages d'erreur du formulaire */
+.form_content span {
+    color: var(--color-dark); 
+    font-size: clamp(1.2rem, 1.6vw, 1.6rem); 
+}
+
+/* Style pour les champs de saisie du formulaire en cas d'erreur de validation */
+.form_content input:invalid:focus,
+.form_content textarea:invalid:focus {
+    outline: 2px solid var(--color-primary); 
+}
+
+/* Style pour le bouton de soumission du formulaire */
+.btn_submit {
+    max-width: 150px; 
+}
+
+/* Style pour le bouton de soumission du formulaire lorsqu'il est survolé ou en focus */
+.btn_submit:hover,
+.btn_submit:focus {
+    outline: 2px solid var(--color-light); 
+}
+
+
+/* Partie 3 */
+
+/* Style pour le conteneur du filtre */
+.main_content_filter {
+    display: flex; 
+    align-items: center; 
+    height: 50px; 
+    gap: 10px; 
+}
+
+/* Style pour les titres de niveau 2 */
+h2 {
+    font-weight: 100; 
+    font-size: clamp(1.6rem, 3vw, 1.8rem); 
+}
+
+/* Style pour la section de filtre */
+.filter_section {
+    position: relative; 
+    height: 100%; 
+}
+
+/* Style pour le menu déroulant */
+.dropdown {
+    z-index: 10; 
+    position: absolute; 
+    border-radius: 5px; 
+    overflow: hidden;
+}
+
+/* Style pour la rotation du menu déroulant */
+.rotate {
+    transform: rotate(180deg); 
+}
+
+/* Style pour le contenu du menu déroulant */
+.dropdown_content {
+    max-height: 0; 
+    background-color: var(--color-primary); 
+    transition: max-height .1s ease-in-out; 
+}
+
+/* Style pour chaque élément de la liste du menu déroulant */
+.dropdown_content li {
+    position: relative; 
+    width: 150px; 
+}
+
+/* Style pour la ligne de séparation entre les éléments du menu déroulant */
+.dropdown_content li::before {
+    content: ""; 
+    position: absolute; 
+    top: 0px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 85%; 
+    height: 1px; 
+    background-color: var(--color-light); 
+}
+
+/* Style pour les boutons du menu déroulant et le bouton principal */
+.btn_drop,
+.dropdown_content li button {
+    height: 50px; 
+    padding: 15px; 
+    font-size: clamp(1.8rem, 2vw, 2rem); 
+    color: var(--color-light); 
+}
+
+/* Style pour le bouton principal du menu déroulant */
+.btn_drop {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 150px; 
+    background-color: var(--color-primary); 
+}
+
+/* Style pour les boutons du menu déroulant */
+.dropdown_content li button {
+    width: 100%; 
+    text-align: left; 
+}
+
+/* Style pour le survol ou le focus des boutons du menu déroulant et du bouton principal */
+.dropdown_content li button:hover,
+.dropdown_content li button:focus,
+.btn_drop:hover,
+.btn_drop:focus {
+    background-color: var(--color-secondary); 
+    color: var(--color-black); 
+}
+
+/* Style pour l'effet de rideau */
+.curtain_effect {
+    max-height: 200px; 
+}
+
+
+/* Partie 4 */
+
+/* Style pour le conteneur principal */
+.main_content {
+    display: flex; 
+    flex-direction: column; 
+    gap: 40px; 
+    margin-top: 40px; 
+}
+
+/* Style pour la galerie d'images */
+.gallery {
+    position: relative; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 30px 60px; 
+}
+
+/* Style pour la carte de la galerie */
+.gallery_card {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+/* Animation pour la carte de la galerie */
+.animeCard {
+    animation: fade .2s ease-in-out; 
+}
+
+/* Style pour le lien de l'image dans la carte de la galerie */
+.gallery_card a {
+    border-radius: 5px; 
+    overflow: hidden; 
+}
+
+/* Style pour la figure (contenant l'image) dans la carte de la galerie */
+.gallery_card a figure {
+    height: 260px; 
+    transition: all .2s ease-in-out; 
+}
+
+/* Style pour la miniature de la galerie */
+.gallery_thumbnail {
+    height: 100%; 
+    width: 100%; 
+    border-radius: 5px; 
+}
+
+/* Style pour la légende de la carte de la galerie */
+.gallery_card figcaption {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 10px;
+}
+
+/* Style pour le titre de la légende de la carte de la galerie */
+.gallery_card figcaption h2 {
+    font-weight: 100; 
+    color: var(--color-primary); 
+    font-size: clamp(1.8rem, 2vw, 2.2rem); 
+}
+
+/* Style pour la section de la légende de la carte de la galerie */
+.gallery_card figcaption div {
+    align-self: flex-start; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    color: var(--color-primary); 
+    font-size: clamp(1.8rem, 2vw, 2.2rem); 
+}
+
+/* Style pour le bouton de like */
+.btn_like {
+    border-radius: 5px; 
+    padding: 0 1px; 
+    font-size: clamp(1.8rem, 2vw, 2.2rem); 
+    color: var(--color-secondary); 
+}
+
+/* Style pour le bouton de like lors du focus visible sans survol */
+.btn_like:focus-visible:not(:hover) {
+    outline: 2px solid var(--color-secondary); 
+}
+
+/* Style pour le bouton de like lorsqu'il est déjà liké */
+.liked {
+    color: var(--color-primary); 
+}
+
+/* Partie 5 */
+/* Style pour la dailybox */
+
+aside {
+    position: sticky;
+    bottom: 0;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 50px;
+    width: fit-content;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: clamp(1.6rem, 2vw, 2rem);
+    background-color: var(--color-secondary);
+}
+
+
+
+
+/* Partie 6 */
+/* Style pour la lightbox */
+
+.lightbox {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    height: 90%;
+    max-height: 1000px;
+    background-color: var(--color-light);
+    padding: 25px 60px 0;
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(-150px);
+    animation: fadeIn .3s ease-in-out forwards;
+}
+
+
+/* Style pour le contenu média de la lightbox */
+.lightbox_media {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Style pour la légende du contenu média de la lightbox */
+.lightbox_media figcaption {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+    color: var(--color-primary);
+}
+
+/* Style pour les médias (images et vidéos) de la lightbox */
+.lightbox_media img,
+.lightbox_media video {
+    width: 100%; 
+    height: calc(100% - 50px); 
+}
+
+/* Style pour la vidéo lorsqu'elle est en focus */
+.lightbox_media video:focus {
+    outline: 2px solid var(--color-primary); 
+}
+
+/* Style pour le bouton de fermeture de la lightbox */
+.btn_close_lightbox {
+    z-index: 100; 
+    position: absolute; 
+    top: 25px;
+    right: 5px; 
+}
+
+/* Style pour l'icône du bouton de fermeture de la lightbox */
+.btn_close_lightbox::before {
+    font-size: clamp(3rem, 6vw, 5rem); 
+    color: var(--color-primary); 
+}
+
+/* Style pour les boutons précédent et suivant de la lightbox */
+.btn_previous,
+.btn_next {
+    z-index: 100; 
+    position: absolute; 
+    top: 50%; 
+    border-radius: 5px; 
+    transform: translateY(-50%); 
+    padding: 5px; 
+}
+
+/* Style pour le bouton suivant de la lightbox */
+.btn_next {
+    right: 10px; 
+}
+
+/* Style pour le bouton précédent de la lightbox */
+.btn_previous {
+    left: 10px; 
+}
+
+/* Style pour l'icône des boutons précédent et suivant de la lightbox */
+.btn_next::before,
+.btn_previous::before {
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    font-size: clamp(3rem, 6vw, 5rem); 
+    color: var(--color-primary); 
+}
+
+/* Style pour les boutons précédent et suivant de la lightbox lors du focus visible sans survol */
+.btn_previous:focus-visible:not(:hover),
+.btn_next:focus-visible:not(:hover) {
+    outline: 2px solid var(--color-primary); 
+}
+
+/* Style pour les boutons précédent, suivant et fermer lors du survol */
+.btn_previous:hover::before,
+.btn_next:hover::before,
+.btn_close_lightbox:hover::before {
+    color: var(--color-secondary); 
+}
+
+/* Style pour les éléments invalides */
+.invalid {
+    outline: 2px solid var(--color-primary); 
+}
+
+/* Style pour les éléments valides */
+.valid {
+    outline: 2px solid green; 
+}
+
+/* Style pour les icônes des boutons précédent, suivant et fermer lorsqu'ils sont actifs */
+.btn_next.active::before,
+.btn_previous.active::before,
+.btn_close_lightbox.active::before {
+    color: var(--color-secondary); 
+}
+
+
+
+/* Partie 7 */
+/* Animation pour afficher le carrousel */
+
+@keyframes fadeIn {
+    to {
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+
+/* Responsive */
+
+/* Media query pour les écrans de taille maximale 1110px */
+@media screen and (max-width: 1110px) {
+    /* Ajustements pour l'en-tête */
+    header {
+        padding: 0 20px; 
+    }
+
+    /* Ajustements pour la section principale */
+    main {
+        padding: 0 20px; 
+    }
+
+    /* Ajustements pour la section principale à propos */
+    .main_about {
+        justify-content: space-around; 
+        padding: 20px; 
+    }
+}
+
+/* Media query pour les écrans de taille maximale 725px */
+@media screen and (max-width: 725px) {
+    /* Ajustements pour le bouton d'appel à l'action */
+    .btn_cta {
+        z-index: 10; 
+        position: absolute; 
+        top: 30px; 
+        right: 40px; 
+    }
+
+    /* Ajustements pour le formulaire modal */
+    .modal_form {
+        padding: 10px; 
+        gap: 5px; 
+        max-height: 100%; 
+        overflow: auto; 
+    }
+
+    /* Ajustements pour le formulaire à l'intérieur du formulaire modal */
+    .modal_form form {
+        gap: 5px; 
+    }
+
+    /* Ajustements pour les champs de saisie du formulaire */
+    .form_content input {
+        height: 40px; 
+    }
+
+    /* Ajustements pour le champ de texte du formulaire */
+    .form_content textarea {
+        height: 80px; 
+    }
+
+    /* Ajustements pour la lightbox */
+    .lightbox {
+        padding: 10px 10px 0; 
+    }
+
+    /* Ajustements pour le bouton de fermeture de la lightbox */
+    .btn_close_lightbox {
+        top: 10px; 
+        right: 10px; 
+    }
+
+    /* Ajustements pour la légende du contenu média de la lightbox */
+    .lightbox_media figcaption {
+        height: 30px; 
+    }
+
+    /* Ajustements pour les médias (images et vidéos) de la lightbox */
+    .lightbox_media img,
+    .lightbox_media video {
+        height: calc(100% - 30px); 
+    }
+
+    /* Ajustements pour les icônes des boutons précédent, suivant et fermer */
+    .btn_next::before,
+    .btn_previous::before,
+    .btn_close_lightbox::before {
+        color: var(--color-light); 
+        -webkit-text-stroke: .5px #000; 
+    }
+}
+
+/* Media query pour les écrans de taille maximale 570px */
+@media screen and (max-width: 570px) {
+    /* Ajustements pour l'en-tête */
+    header {
+        padding: 0; 
+    }
+
+    /* Ajustements pour les informations du profil du photographe */
+    .photographer_profile__infos {
+        gap: 2px; 
+    }
+
+    /* Ajustements pour le bouton d'appel à l'action */
+    .btn_cta {
+        right: 20px; 
+    }
+
+    /* Ajustements pour la section principale */
+    main {
+        padding: 0; 
+    }
+}
+
+/* Media query pour les écrans de taille maximale 445px */
+@media screen and (max-width: 445px) {
+    /* Ajustements pour la page */
+    .page {
+        padding: 10px; 
+    }
+
+    /* Ajustements pour la section principale à propos */
+    .main_about {
+        justify-content: space-between; 
+        padding: 10px; 
+    }
+
+    /* Ajustements pour la section principale */
+    .main_content {
+        gap: 20px; 
+        margin-top: 20px; 
+    }
+
+    /* Ajustements pour la galerie */
+    .gallery {
+        gap: 20px; 
+    }
+
+    /* Ajustements pour le bouton d'appel à l'action */
+    .btn_cta {
+        top: 10px; 
+        right: 10px; 
+    }
+}
