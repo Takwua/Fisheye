@@ -1,0 +1,154 @@
+/* Partie 1: Réinitialisation et Styles Globaux */
+
+*, ::before, ::after {
+    box-sizing: border-box; /* Appliquer box-sizing à tous les éléments */
+    margin: 0; /* Supprimer la marge par défaut */
+    padding: 0; /* Supprimer le padding par défaut */
+}
+
+:root {
+    /* Définir les variables de couleur */
+    --color-primary: #901C1C;
+    --color-secondary: #DB8876;
+    --color-tertiary: #D3573C;
+    --color-dark: #000;
+    --color-dark-medium: #757575;
+    --color-light: #fff;
+    --color-light-medium: #FAFAFA;
+    --color-label: #312E2E;
+}
+
+html {
+    font-size: 62.5%; 
+    font-family: "DM Sans", sans-serif; 
+}
+
+button, a {
+    cursor: pointer; 
+    outline: none; 
+    border: none; 
+}
+
+button {
+    background-color: transparent; 
+}
+
+a {
+    text-decoration: none; 
+    outline: none; 
+}
+
+img, video {
+    object-fit: cover; 
+    object-position: center; 
+}
+
+li {
+    list-style-type: none; 
+}
+
+/* Partie 2: Mise en page */
+
+.page {
+    margin: 0 auto; 
+    padding: 30px 20px 20px; 
+    max-width: 1400px; 
+}
+
+header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 120px; 
+    height: 50px; 
+}
+
+/* Partie 3: Styles de l'en-tête */
+
+header a {
+    position: relative; 
+    border-radius: 5px; 
+    padding: 5px; 
+}
+
+header a::before {
+    content: ""; 
+    z-index: -1; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    bottom: 10px; 
+    height: 2px; 
+    width: 0; 
+    background-color: var(--color-secondary); 
+    transition: width .2s ease-in-out; 
+}
+
+/* Partie 4: Typographie */
+
+.logo {
+    width: clamp(13rem, 15vw, 20rem); 
+}
+
+h1 {
+    color: var(--color-primary);
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 100;
+}
+
+.photographer_name {
+    color: var(--color-tertiary);
+    font-size: clamp(2.5rem, 3.2vw, 3.2rem);
+}
+
+.photographer_location {
+    color: var(--color-primary);
+    font-size: clamp(1.8rem, 2vw, 2rem);
+}
+
+.photographer_tagline, 
+.photographer_price {
+    font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+}
+
+.photographer_thumbnail {
+    border-radius: 50%;
+}
+
+
+/* Partie 5: Classes utilitaires */
+
+.btn {
+    font-size: clamp(1.8rem, 2vw, 2rem);
+    font-weight: bold;
+    color: var(--color-light);
+    padding: 15px;
+    height: 50px;
+    background-color: var(--color-primary);
+    border-radius: 5px;
+}
+
+
+/* Partie 6: Styles du wrapper */
+
+.wrapper {
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+}
+
+
+/* Partie 7: Styles responsifs */
+
+@media screen and (max-width: 445px) {
+    .page {
+        padding: 10px; 
+    }
+}
