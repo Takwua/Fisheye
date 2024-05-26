@@ -1,122 +1,32 @@
 // Partie 1: Fonctionnalités générales
 
-// Fonction pour récupérer les données d'une URL
-const fetchData = async (url) => {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Erreur : ${response.status} - ${response.statusText}`);
-        return await response.json();
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error.message);
-        throw error;
-    }
-};
-
-// API pour interagir avec les données
-class DataHandler {
-    constructor(url) {
-        this.url = url;
-    }
-
-    async get() {
-        try {
-            const response = await fetch(this.url);
-            if (!response.ok) throw new Error(`Erreur : ${response.status} - ${response.statusText}`);
-            return await response.json();
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données via l'API :", error.message);
-            throw error;
-        }
-    }
-}
-
-
-// Classe représentant un photographe
-class Photographer {
-    constructor(data) {
-        this.name = data.name; // Nom du photographe
-        this.id = data.id; // Identifiant unique du photographe
-        this.city = data.city; // Ville où le photographe est basé
-        this.country = data.country;    // Pays du photographe
-        this.tagline = data.tagline;  // Phrase d'accroche ou slogan du photographe
-        this.price = data.price;   // Tarif journalier du photographe
-        this.portrait = data.portrait; // Nom du fichier de portrait du photographe
-    }
-}
-
-
-// Classe de base pour les médias
-class Media {
-    constructor(data) {
-        this.id = data.id; // ID unique du média
-        this.photographerId = data.photographerId; // ID du photographe associé
-        this.title = data.title; // Titre du média
-        this.likes = data.likes; // Nombre de likes du média
-        this.date = data.date; // Date de création du média
-        this.price = data.price; // Prix du média
-        this.alt = data.alt; // Texte alternatif
-    }
-}
-
-// Classe pour les images, héritant de Media
-class Image extends Media {
-    constructor(data) {
-        super(data);
-        this.image = data.image; // Nom du fichier image
-    }
-}
-
-// Classe pour les vidéos, héritant de Media
-class Video extends Media {
-    constructor(data) {
-        super(data);
-        this.video = data.video; // Nom du fichier vidéo
-    }
-}
-
-// Fabrique de médias qui crée des instances de Image ou de Video selon le type de données
-class MediasFactory {
-    constructor(data) {
-        // Si le champ "image" existe, créer un objet Image
-        if (data.image) {
-            return new Image(data);
-        }
-        // Si le champ "video" existe, créer un objet Video
-        else if (data.video) {
-            return new Video(data);
-        }
-        // Si aucun champ correspondant, déclencher une erreur
-        else {
-            throw new Error('Type de média inconnu');
-        }
-    }
-}
+import { obtenirDonnées, GestionDonnees, Photographe, Media, Video, MediasFactory } from './data.js';
 
 // Partie 2: Profil du photographe - Header
 
-class PhotographerHeader {
-    constructor(photographer) {
-        this.photographer = photographer;
+class PhotographeHeader {
+    constructor(photographes) {
+        this.photographes = photographes;
     }
 
     // Met à jour le contenu du header avec les informations du photographe
-    createPhotographerHeader() {
-        const { name, city, country, price, tagline, portrait } = this.photographer;
-        document.querySelector(".modal_form_name").textContent = name; // Met à jour le nom du formulaire modal
+    creerPhotoprapheHeader() {
+        const { nom, ville, pays, prix, description, portrait } = this.photographes;
+        document.querySelector(".formulaire-nom").textContent = nom; // Met à jour le nom du formulaire modal
         document.querySelector('meta[name="description"]').content =
-            `Découvrez ${name}, photographe professionnel basé à ${city}, ${country}, offrant ses services à partir de ${price} € / jour.`; // Met à jour la méta-description
+            `Découvrez ${nom}, photographe professionnel basé à ${ville}, ${pays}, offrant ses services à partir de ${prix} € / jour.`; // Met à jour la méta-description
 
-        const profilePageHeader = document.querySelector(".main_about");
+        const profilePageHeader = document.querySelector(".apropos");
         if (profilePageHeader) {
             // Insère le contenu du header avec le nom, la localisation, la devise, et la vignette
             profilePageHeader.innerHTML = `
-                <div class="photographer_profile__infos">
-                    <h1 class="photographer_name">${name}</h1>
-                    <p class="photographer_location">${city}, ${country}</p>
-                    <p class="photographer_tagline">${tagline}</p>
+                <div class="informations_du_profil_photographe">
+                    <h1 class="photographe_nom">${nom}</h1>
+                    <p class="photographe_location">${ville}, ${pays}</p>
+                    <p class="photographe_description">${description}</p>
                 </div>
-                <button class="btn btn_cta" type="button" aria-label="Ouvrir le formulaire de contact">Contactez-moi</button>
-                <img class="photographer_thumbnail" src="assets/images/photographers/thumbnails/${portrait}" alt="${name}">
+                <button class="bouton bouton_cta" type="button" aria-label="Ouvrir le formulaire de contact">Contactez-moi</button>
+                <img class="photographe_miniature" src="assets/images/photographers/thumbnails/${portrait}" alt="${nom}">
             `;
         }
     }
@@ -124,30 +34,30 @@ class PhotographerHeader {
 
 // Partie 3: Profil du photographe - Médias
 
-class PhotographerMedias {
-    constructor(photographer, medias) {
-        this.photographer = photographer;
+class PhotographeMedias {
+    constructor(photographes, medias) {
+        this.photographes = photographes;
         this.medias = medias;
     }
 
     // Crée le contenu pour la section des médias
-    createPhotographerMedias() {
-        const profilePageContent = document.querySelector(".main_content_medias");
+    creerMediaPhotographe() {
+        const profilPageContenu = document.querySelector(".contenu-medias");
         const galleryItems = this.medias.map(media => {
             const mediaType = media.image
-                ? `<img class="gallery_thumbnail" src="./assets/images/photographers/samplePhotos-Small/${this.photographer.name}/${media.image}" alt="${media.alt}">`
-                : `<video class="gallery_thumbnail" aria-label="${media.alt}"><source src="./assets/images/photographers/samplePhotos-Small/${this.photographer.name}/${media.video}" type="video/mp4"></video>`;
+                ? `<img class="gallery_thumbnail" src="./assets/images/photographers/samplePhotos-Small/${this.photographes.nom}/${media.image}" alt="${media.alt}">`
+                : `<video class="gallery_thumbnail" aria-label="${media.alt}"><source src="./assets/images/photographers/samplePhotos-Small/${this.photographes.nom}/${media.video}" type="video/mp4"></video>`;
 
             return `
-                <article class="gallery_card">                           
+                <article class="carte_gallerie">                           
                     <a href="#" data-media="${media.id}" role="link" aria-label="View media large">
                         <figure>${mediaType}</figure>
                     </a>
                     <figcaption>
-                        <h2>${media.title}</h2>
+                        <h2>${media.titre}</h2>
                         <div role="group" aria-label="Like button and number of likes">
                             <span class="nbLike">${media.likes}</span>
-                            <button class="btn_like" type="button" aria-label="Like" data-id="${media.id}">
+                            <button class="bouton-like" type="button" aria-label="Like" data-id="${media.id}">
                                 <span class="fas fa-heart" aria-hidden="true"></span>
                             </button>
                         </div>
@@ -156,27 +66,28 @@ class PhotographerMedias {
             `;
         }).join("");
 
-        profilePageContent.innerHTML = `<section class="gallery">${galleryItems}</section><aside><p class="photographer_Likes"><span class="photographer_likes_count"></span><span class="fas fa-heart" aria-hidden="true"></span></p><span>${this.photographer.price}€ / jour</span></aside>`;
+        profilPageContenu.innerHTML = `<section class="gallery">${galleryItems}</section><aside><p class="photographer_Likes"><span class="likes-compte-photographer"></span><span class="fas fa-heart" aria-hidden="true"></span></p><span>${this.photographes.prix}€ / jour</span></aside>`;
     }
 }
 
 
 // Partie 4: Total des likes et gestion des likes
 
-const displayTotalLikes = async () => {
-    const { medias } = await getPhotographerById(); // Récupérer les données médias
-    const likesElement = document.querySelector(".photographer_likes_count"); // Sélectionner l'élément affichant le total des likes
-    const allBtnLike = document.querySelectorAll(".btn_like"); // Sélectionner tous les boutons de "like"
+const afficherTotalLikes = async () => {
+    const { medias } = await obtenirPhotographeParId(); // Récupérer les données médias
+    const likesElement = document.querySelector(".likes-compte-photographer"); // Sélectionner l'élément affichant le total des likes
+    const tousBoutonLikes = document.querySelectorAll(".bouton-like"); // Sélectionner tous les boutons de "like"
 
     const updateTotalLikes = () => { // Fonction pour mettre à jour le total des likes
-        likesElement.textContent = `${medias.reduce((acc, m) => acc + m.likes, 0)}`; // Calculer et afficher le total
+        likesElement.textContent = `${medias.reduce((totalLikesAccumuler, mediaObjet) => totalLikesAccumuler + mediaObjet.likes, 0)}`;
+        // Calculer et afficher le total
     };
 
-    allBtnLike.forEach(btn => { // Pour chaque bouton de "like"
-        btn.addEventListener("click", () => { // Ajouter un écouteur d'événement
-            const media = medias.find(m => m.id == btn.dataset.id); // Trouver le média correspondant
-            media.likes += btn.classList.toggle("liked") ? 1 : -1; // Incrémenter ou décrémenter les likes
-            btn.previousElementSibling.textContent = `${media.likes}`; // Mettre à jour l'affichage des likes pour ce média
+    tousBoutonLikes.forEach(bouton => { // Pour chaque bouton de "like"
+        bouton.addEventListener("click", () => { // Ajouter un écouteur d'événement
+            const media = medias.find(mediaItem => mediaItem.id == bouton.dataset.id); // Trouver le média correspondant
+            media.likes += bouton.classList.toggle("liker") ? 1 : -1; // Incrémenter ou décrémenter les likes
+            bouton.previousElementSibling.textContent = `${media.likes}`; // Mettre à jour l'affichage des likes pour ce média
             updateTotalLikes(); // Mettre à jour le total
         });
     });
@@ -186,149 +97,156 @@ const displayTotalLikes = async () => {
 
 // Partie 5: Ouverture et fermeture du formulaire de contact
 
-export const openCloseFormContact = () => {
-    const contactBtn = document.querySelector(".btn_cta"); // Sélecteur du bouton de contact
-    const contactModal = document.querySelector(".modal_wrapper"); // Sélecteur de la modale
-    const closeModal = document.querySelector(".btn_close"); // Bouton pour fermer la modale
+const ouvertureFermetureFormulaire = () => {
+    const boutonContact = document.querySelector(".bouton_cta"); // Sélecteur du bouton de contact
+    const contactModal = document.querySelector(".formulaire-wrapper"); // Sélecteur de la modale
+    const fermerModal = document.querySelector(".bouton-fermer"); // Bouton pour fermer la modale
 
     // Lors du clic sur le bouton de contact, ouvrir la modale
-    contactBtn.addEventListener("click", () => {
+    boutonContact.addEventListener("click", () => {
         contactModal.style.display = "flex"; // Afficher la modale
-        closeModal.focus(); // Mettre le focus sur le bouton de fermeture
+        fermerModal.focus(); // Mettre le focus sur le bouton de fermeture
     });
 
     // Lors du clic sur le bouton de fermeture, fermer la modale
-    closeModal.addEventListener("click", () => contactModal.style.display = "none");
+    fermerModal.addEventListener("click", () => contactModal.style.display = "none");
 };
 
 
-
-
-
-// Partie 6: Validation du formulaire
-
-const validateForm = () => {
-    const form = document.querySelector('.modal_form form'); // Sélection du formulaire
-    const firstName = document.querySelector("#firstname"); // Prénom
-    const lastName = document.querySelector("#lastname"); // Nom de famille
+const validationFormulaire = () => {
+    const form = document.querySelector('.formulaire form'); // Sélection du formulaire
+    const nom = document.querySelector("#nom"); // Prénom
+    const prenom = document.querySelector("#prenom"); // Nom de famille
     const email = document.querySelector("#email"); // Email
     const message = document.querySelector("#message"); // Message
 
     // Gérer l'entrée utilisateur pour afficher des messages personnalisés
-    form.addEventListener('input', () => displayCustomMessage());
+    form.addEventListener('input', () => afficherMessagePersonnalise());
 
     // Lors de la soumission du formulaire
-    form.addEventListener('submit', e => {
-        e.preventDefault(); // Empêcher le rechargement de la page
+    form.addEventListener('submit', evenement => {
+        evenement.preventDefault(); // Empêcher le rechargement de la page
         if (form.checkValidity()) { // Si le formulaire est valide
             const formDatas = {
-                firstName: firstName.value, // Stocker les valeurs du formulaire
-                lastName: lastName.value,
+                nom: nom.value, // Stocker les valeurs du formulaire
+                prenom: prenom.value,
                 email: email.value,
                 message: message.value,
             };
             console.log(JSON.stringify(formDatas)); // Afficher les données sous forme de chaîne JSON
             form.reset(); // Réinitialiser le formulaire
         } else {
-            displayCustomMessage(); // Afficher les messages d'erreur si invalide
+            afficherMessagePersonnalise(); // Afficher les messages d'erreur si invalide
         }
     });
 
-    const checkInputValidity = (input, regex) => { // Fonction de validation des entrées
-        const isValid = regex.test(input.value); // Vérifier si l'entrée correspond au regex
-        const errorMessage = input.dataset.error; // Message d'erreur pour l'entrée
-        const messageProvider = input.nextElementSibling; // Où afficher le message d'erreur
+    const validationEntrée = (input, regex) => { // Fonction de validation des entrées
+        const valider = regex.test(input.value); // Vérifier si l'entrée correspond au regex
+        const messageErreur = input.dataset.error; // Message d'erreur pour l'entrée
+        const messageFournis = input.nextElementSibling; // Où afficher le message d'erreur
 
-        if (isValid) { // Si l'entrée est valide, enlever les erreurs
-            messageProvider.innerHTML = "";
-            messageProvider.removeAttribute("role");
+        if (valider) { // Si l'entrée est valide, enlever les erreurs
+            messageFournis.innerHTML = "";
+            messageFournis.removeAttribute("role");
             input.removeAttribute("aria-invalid");
         } else { // Sinon, afficher le message d'erreur
-            messageProvider.innerHTML = errorMessage;
-            messageProvider.setAttribute("role", "alert");
+            messageFournis.innerHTML = messageErreur;
+            messageFournis.setAttribute("role", "alert");
             input.setAttribute("aria-invalid", "true");
         }
 
+        // Ajoutez des logs pour voir quelles classes sont appliquées
+        console.log(input.id, 'Valide:', valider);
+
         // Mettre à jour la classe de l'entrée selon la validité
-        input.classList.toggle('invalid', !isValid);
-        input.classList.toggle('valid', isValid);
+        input.classList.toggle('invalider', !valider);
+        input.classList.toggle('valider', valider);
     };
 
     // Fonction pour afficher des messages personnalisés selon la validité des entrées
-    const displayCustomMessage = () => {
-        const regexName = /^([A-Za-z|\s]{3,15})?([-]{0,1})?([A-Za-z|\s]{3,15})$/; // Regex pour les noms
+    const afficherMessagePersonnalise = () => {
+        const regexNom = /^([A-Za-z\s]{3,15})?([-]{0,1})?([A-Za-z\s]{3,15})$/; // Regex pour les noms
         const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // Regex pour les emails
-        const regexMessage = /^[A-Za-z0-9|\s]{20,200}$/; // Regex pour les messages
+        const regexMessage = /^[A-Za-z0-9\s]{20,200}$/; // Regex pour les messages
 
         // Vérifier la validité de chaque entrée
-        checkInputValidity(firstName, regexName);
-        checkInputValidity(lastName, regexName);
-        checkInputValidity(email, regexEmail);
-        checkInputValidity(message, regexMessage);
+        validationEntrée(nom, regexNom);
+        validationEntrée(prenom, regexNom);
+        validationEntrée(email, regexEmail);
+        validationEntrée(message, regexMessage);
     };
 };
 
 
 // Partie 7: Lightbox pour afficher les médias en grand
 
-const displayLightbox = medias => {
+const afficherLightbox = medias => {
     // Sélectionner les éléments de la lightbox
     const lightboxWrapper = document.querySelector('.lightbox_wrapper');
-    const btnClose = document.querySelector('.btn_close_lightbox');
-    const btnPrevious = document.querySelector('.btn_previous');
-    const btnNext = document.querySelector('.btn_next');
+    const boutonFermer = document.querySelector('.bouton-fermer-lightbox');
+    const boutonPrecedent = document.querySelector('.bouton-precedent');
+    const boutonSuivant = document.querySelector('.bouton-suivant');
     const lightboxMedia = document.querySelector('.lightbox_media');
-    const mediaProvider = Array.from(document.querySelectorAll('.gallery_card a'));
+    const mediaFournis = Array.from(document.querySelectorAll('.carte_gallerie a'));
 
     // Récupérer le photographe et sa liste de médias
-    const photographer = medias.photographer;
+    const photographes = medias.photographes;
     const mediasList = medias.medias;
-    let currentIndex = 0;
+    let indexActuel = 0;
 
     // Ouvrir la lightbox au clic sur un média
-    mediaProvider.forEach(media => {
+    mediaFournis.forEach(media => {
         media.addEventListener('click', () => {
-            currentIndex = mediasList.findIndex(m => m.id == media.dataset.media); // Définir l'indice du média actuel
+            indexActuel = mediasList.findIndex(mediaItem => mediaItem.id == media.dataset.media); // Définir l'indice du média actuel
             lightboxWrapper.style.display = 'flex'; // Afficher la lightbox
-            btnClose.focus(); // Mettre le focus sur le bouton de fermeture
+            boutonFermer.focus(); // Mettre le focus sur le bouton de fermeture
             lightboxTemplate(); // Mettre à jour le contenu
         });
     });
 
     // Fonction pour afficher le contenu du média dans la lightbox
     const lightboxTemplate = () => {
-        const currentMedia = mediasList[currentIndex];
-        const srcPath = `./assets/images/photographers/samplePhotos-Medium/${photographer.name}/`;
-        const mediaContent = currentMedia.image
-            ? `<img src="${srcPath + currentMedia.image}" alt="${currentMedia.alt}">`
-            : `<video controls aria-label="${currentMedia.alt}"><source src="${srcPath + currentMedia.video}" type="video/mp4"></video>`;
+        const mediaActuel = mediasList[indexActuel];
+        const srcPath = `./assets/images/photographers/samplePhotos-Medium/${photographes.nom}/`;
+        const mediaContenu = mediaActuel.image
+            ? `<img src="${srcPath + mediaActuel.image}" alt="${mediaActuel.alt}">`
+            : `<video controls aria-label="${mediaActuel.alt}"><source src="${srcPath + mediaActuel.video}" type="video/mp4"></video>`;
 
-        lightboxMedia.innerHTML = `${mediaContent}<figcaption>${currentMedia.title}</figcaption>`; // Insérer le média et sa légende
+        lightboxMedia.innerHTML = `${mediaContenu}<figcaption>${mediaActuel.titre}</figcaption>`; // Insérer le média et sa légende
     };
 
     // Fonction pour fermer la lightbox
-    const closeLightbox = () => {
+    const femerLightbox = () => {
         lightboxWrapper.style.display = 'none'; // Cacher la lightbox
         lightboxMedia.innerHTML = ''; // Effacer le contenu
     };
 
     // Gestion des événements pour changer de média et fermer la lightbox
-    btnPrevious.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + mediasList.length) % mediasList.length; // Précédent
+    boutonPrecedent.addEventListener('click', () => {
+        indexActuel = (indexActuel - 1 + mediasList.length) % mediasList.length; // Précédent
         lightboxTemplate(); // Actualiser le contenu
     });
 
-    btnNext.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % mediasList.length; // Suivant
+    boutonSuivant.addEventListener('click', () => {
+        indexActuel = (indexActuel + 1) % mediasList.length; // Suivant
         lightboxTemplate(); // Actualiser le contenu
     });
 
-    btnClose.addEventListener('click', closeLightbox); // Fermer la lightbox
-    document.addEventListener('keyup', e => { // Navigation par touches du clavier
-        if (e.key === 'Escape') closeLightbox(); // Fermer sur Escape
-        if (e.key === 'ArrowLeft') btnPrevious.click(); // Précédent sur flèche gauche
-        if (e.key === 'ArrowRight') btnNext.click(); // Suivant sur flèche droite
+    // Fermer la lightbox lorsque le bouton Fermer est cliqué
+    boutonFermer.addEventListener('click', femerLightbox);
+
+    // Navigation par touches du clavier
+    document.addEventListener('keyup', event => {
+        // Fermer la lightbox sur la touche Échap
+        if (event.key === 'Escape') femerLightbox();
+
+        // Aller à la photo précédente sur la flèche gauche
+        if (event.key === 'ArrowLeft') boutonPrecedent.click();
+
+        // Aller à la photo suivante sur la flèche droite
+        if (event.key === 'ArrowRight') boutonSuivant.click();
     });
+
 };
 
 
@@ -336,45 +254,46 @@ const displayLightbox = medias => {
 // Partie 8: Filtres et tri des médias
 
 // Fonction pour ouvrir/fermer le menu déroulant
-const openCloseFilterMenu = () => {
-    const filterMenu = document.querySelector(".dropdown_content"); // Menu déroulant
-    const filterMenuButton = document.querySelector(".btn_drop"); // Bouton pour ouvrir/fermer
-    const filterButtons = document.querySelectorAll(".dropdown_content button"); // Boutons des options du menu
+const ouvrirFermerFiltres = () => {
+    const filtreMenu = document.querySelector(".contenu-menu-deroulant"); // Sélection du menu déroulant
+    const filtreMenuBouton = document.querySelector(".bouton-menu-deroulant"); // Sélection du bouton d'ouverture/fermeture
+    const filtreBoutons = document.querySelectorAll(".contenu-menu-deroulant button"); // Sélection de tous les boutons d'options du menu
 
-    filterMenuButton.addEventListener("click", () => {
-        const isExpanded = filterMenuButton.getAttribute("aria-expanded") === "true"; // Vérifier si le menu est ouvert
-        filterMenuButton.setAttribute("aria-expanded", !isExpanded); // Basculer l'attribut aria-expanded
-        filterMenu.classList.toggle("curtain_effect"); // Basculer l'effet rideau
-        document.querySelector(".fa-chevron-up").classList.toggle("rotate"); // Rotation de la flèche
+    filtreMenuBouton.addEventListener("click", () => {
+        const menuEstOuvert = filtreMenuBouton.getAttribute("aria-expanded") === "true"; // Vérifier si le menu est ouvert
+        filtreMenuBouton.setAttribute("aria-expanded", !menuEstOuvert); // Inverser l'attribut aria-expanded
+        filtreMenu.classList.toggle("animationOuverture"); // Basculer l'effet rideau
+        document.querySelector(".fa-chevron-up").classList.toggle("rotation"); // Rotation de la flèche
 
-        const isVisible = filterMenu.classList.contains("curtain_effect"); // Menu visible?
-        filterMenu.setAttribute("aria-hidden", !isVisible ? "true" : "false"); // Mettre à jour aria-hidden
-        const tabIndexValue = isVisible ? "0" : "-1"; // TabIndex selon la visibilité
-        filterButtons.forEach(button => button.setAttribute("tabindex", tabIndexValue)); // Mettre à jour le tabIndex
+        const estVisible = filtreMenu.classList.contains("animationOuverture"); // Le menu est-il visible ?
+        filtreMenu.setAttribute("aria-hidden", !estVisible ? "true" : "false"); // Mettre à jour aria-hidden
+        const valeurTabIndex = estVisible ? "0" : "-1"; // Déterminer la valeur du tabIndex en fonction de la visibilité
+        filtreBoutons.forEach(bouton => bouton.setAttribute("tabindex", valeurTabIndex)); // Mettre à jour le tabIndex pour chaque bouton
     });
 };
 
-// Fonction pour afficher les médias en utilisant des filtres
-const displayMediaWithFilter = mediasTemplate => {
-    const currentFilter = document.querySelector('#current_filter'); // Filtre courant
-    const allFilters = document.querySelectorAll('.dropdown_content li button'); // Tous les filtres
 
-    allFilters.forEach(filter => {
+// Fonction pour afficher les médias en utilisant des filtres
+const afficherMediaFiltre = mediasTemplate => {
+    const filtreActuel = document.querySelector('#filtre-courrant'); // Filtre courant
+    const tousLesFiltres = document.querySelectorAll('.contenu-menu-deroulant li button'); // Tous les filtres
+
+    tousLesFiltres.forEach(filter => {
         filter.addEventListener('click', () => {
-            currentFilter.textContent = filter.textContent; // Mettre à jour le filtre courant
-            allFilters.forEach(f => f.style.display = 'block'); // Afficher tous les filtres
+            filtreActuel.textContent = filter.textContent; // Mettre à jour le filtre courant
+            tousLesFiltres.forEach(f => f.style.display = 'block'); // Afficher tous les filtres
             filter.style.display = 'none'; // Masquer le filtre sélectionné
 
             // Trier les médias selon le filtre
             switch (filter.textContent) {
-                case 'Titre': mediasTemplate.medias.sort((a, b) => a.title.localeCompare(b.title)); break;
+                case 'Titre': mediasTemplate.medias.sort((a, b) => a.titre.localeCompare(b.titre)); break;
                 case 'Popularité': mediasTemplate.medias.sort((a, b) => b.likes - a.likes); break;
                 case 'Date': mediasTemplate.medias.sort((a, b) => new Date(b.date) - new Date(a.date)); break;
             }
 
-            mediasTemplate.createPhotographerMedias(); // Recréer les médias avec le nouveau filtre
-            displayLightbox(mediasTemplate); // Afficher la lightbox
-            displayTotalLikes(); // Mettre à jour le total des likes
+            mediasTemplate.creerMediaPhotographe(); // Recréer les médias avec le nouveau filtre
+            afficherLightbox(mediasTemplate); // Afficher la lightbox
+            afficherTotalLikes(); // Mettre à jour le total des likes
         });
     });
 };
@@ -382,33 +301,33 @@ const displayMediaWithFilter = mediasTemplate => {
 
 // Partie 9: Affichage du profil du photographe et de ses médias
 
-const photographersApi = new DataHandler("./data/photographers.json");
-const photographerId = new URLSearchParams(window.location.search).get("id");
+const photographeApi = new GestionDonnees("./data/photographers.json");
+const photographeId = new URLSearchParams(window.location.search).get("id");
 
-const getPhotographerById = async () => {
-    const { photographers, media } = await photographersApi.get();
-    const photographer = photographers
-        .map(photographer => new Photographer(photographer))
-        .find(photographer => photographer.id == photographerId);
+const obtenirPhotographeParId = async () => {
+    const { photographe, media } = await photographeApi.get();
+    const photographes = photographe
+        .map(photographes => new Photographe(photographes))
+        .find(photographes => photographes.id == photographeId);
     const medias = media
         .map(media => new MediasFactory(media))
-        .filter(media => media.photographerId == photographerId);
-    return { photographer, medias };
+        .filter(media => media.photographeId == photographeId);
+    return { photographes, medias };
 };
 
-const displayProfilePage = async () => {
-    const { photographer, medias } = await getPhotographerById();
-    const headerTemplate = new PhotographerHeader(photographer);
-    headerTemplate.createPhotographerHeader();
-    const mediasTemplate = new PhotographerMedias(photographer, medias);
-    mediasTemplate.createPhotographerMedias();
+const afficherPageProfil = async () => {
+    const { photographes, medias } = await obtenirPhotographeParId();
+    const headerTemplate = new PhotographeHeader(photographes);
+    headerTemplate.creerPhotoprapheHeader();
+    const mediasTemplate = new PhotographeMedias(photographes, medias);
+    mediasTemplate.creerMediaPhotographe();
 
-    displayTotalLikes();
-    openCloseFormContact();
-    validateForm();
-    openCloseFilterMenu();
-    displayMediaWithFilter(mediasTemplate)
-    displayLightbox(mediasTemplate);
+    afficherTotalLikes();
+    ouvertureFermetureFormulaire();
+    validationFormulaire();
+    ouvrirFermerFiltres();
+    afficherMediaFiltre(mediasTemplate)
+    afficherLightbox(mediasTemplate);
 };
 
-displayProfilePage();
+afficherPageProfil();

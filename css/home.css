@@ -1,5 +1,5 @@
 /* Partie 1: Styles pour la section principale des photographes */
-.main_photographers {
+.contenu-photographe{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +9,7 @@
 }
 
 /* Partie 2: Styles pour chaque article */
-.main_photographers article {
+.contenu-photographe article {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -18,7 +18,7 @@
 }
 
 /* Partie 3: Styles pour les liens */
-.main_photographers article a {
+.contenu-photographe article a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,14 +27,14 @@
 }
 
 /* Partie 4: Styles pour les miniatures */
-.photographer-thumbnail {
+.photographe-miniature {
     height: 200px;
     width: 200px;
     border-radius: 50%;
 }
 
 /* Partie 5: Styles pour les noms */
-.photographer-name {
+.photographe-nom {
     font-family: DM Sans;
     font-size: 28px;
     font-weight: 400;
@@ -42,7 +42,7 @@
     text-align: center;
     color :var(--color-tertiary); 
 }
-.photographer-location{
+.photographe-location{
     font-family: DM Sans;
     font-size: 17px;
     font-weight: 400;
@@ -50,7 +50,7 @@
     text-align: center;
     color :var(--color-primary);
 }
-.photographer-tagline{
+.photographe-description{
     font-family: DM Sans;
     font-size: 15px;
     font-weight: 400;
@@ -61,7 +61,7 @@
 }
 
 /* Partie 6: Styles pour les prix */
-.photographer-price {
+.photographe-prix {
     color: var(--color-dark-medium);
     font-family: DM Sans;
     font-size: 14px;
@@ -71,19 +71,23 @@
 
 }
 
+article a:focus{
+    border: 2px solid black;
+}
+
 /* Partie 7: Styles responsifs */
 @media screen and (max-width: 1040px) {
-    .main_photographers article {
+    .contenu-photographer article {
         width: 45%;
     }
 }
 
 @media screen and (max-width: 725px) {
-    .main_photographers {
+    .contenu-photographers{
         margin-top: 30px;
         gap: 20px;
     }
-    .main_photographers article {
+    .contenu-photographers article {
         width: 100%;
     }
 }

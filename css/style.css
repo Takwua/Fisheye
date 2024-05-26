@@ -96,29 +96,29 @@ h1 {
     font-weight: 100;
 }
 
-.photographer_name {
+.photographe_nom {
     color: var(--color-tertiary);
     font-size: clamp(2.5rem, 3.2vw, 3.2rem);
 }
 
-.photographer_location {
+.photographe_location {
     color: var(--color-primary);
     font-size: clamp(1.8rem, 2vw, 2rem);
 }
 
-.photographer_tagline, 
-.photographer_price {
+.photographe_description, 
+.photographe_prix {
     font-size: clamp(1.5rem, 1.8vw, 1.8rem);
 }
 
-.photographer_thumbnail {
+.photographe_miniature {
     border-radius: 50%;
 }
 
 
 /* Partie 5: Classes utilitaires */
 
-.btn {
+.bouton {
     font-size: clamp(1.8rem, 2vw, 2rem);
     font-weight: bold;
     color: var(--color-light);
