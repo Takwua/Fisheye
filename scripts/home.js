@@ -1,18 +1,17 @@
 import { obtenirDonnées, GestionDonnees, Photographe } from './data.js';
 
-
 // Carte d'un photographe
 class cartePhotographe {
-    constructor(photographer) {
-        this.photographer = photographer;
+    constructor(photographe) {
+        this.photographe = photographe;
     }
 
     render() {
-        const { id, nom, portrait, ville, pays, description, prix } = this.photographer;
+        const { id, nom, portrait, ville, pays, description, prix } = this.photographe;
         const article = document.createElement('article');
         article.innerHTML = `
-            <a href="photographer.html?id=${id}" role="link" aria-label="Voir le profil de ${nom}">
-                <img class="photographe-miniature" src="./assets/images/photographers/thumbnails/${portrait}" alt="${nom}">
+            <a href="photographe.html?id=${id}" role="link" aria-label="Voir le profil de ${nom}">
+                <img class="photographe-miniature" src="./assets/images/photographe/miniature/${portrait}" alt="${nom}">
                 <h2 class="photographe-nom">${nom}</h2>
             </a>
             <p class="photographe-location">${ville}, ${pays}</p>
@@ -26,9 +25,9 @@ class cartePhotographe {
 
 // Sélection de la section pour les photographes
 const photographeSection = document.querySelector(".contenu-photographe");
-const gestionPhotographe = new GestionDonnees("./data/photographers.json");
+const gestionPhotographe = new GestionDonnees("./data/photographe.json");
 
-const afficherPhotographe = async () => {
+export const afficherPhotographe = async () => {
     try {
         const data = await gestionPhotographe.get();
         const photographes = data.photographe.map(data => new Photographe(data));
@@ -41,4 +40,5 @@ const afficherPhotographe = async () => {
     }
 };
 
-afficherPhotographe(); // Appel de la fonction pour afficher les photographes
+// Appel de la fonction pour afficher les photographes
+afficherPhotographe();

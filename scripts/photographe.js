@@ -4,71 +4,7 @@ import { obtenirDonnées, GestionDonnees, Photographe, Media, Video, MediasFacto
 
 // Partie 2: Profil du photographe - Header
 
-class PhotographeHeader {
-    constructor(photographes) {
-        this.photographes = photographes;
-    }
-
-    // Met à jour le contenu du header avec les informations du photographe
-    creerPhotoprapheHeader() {
-        const { nom, ville, pays, prix, description, portrait } = this.photographes;
-        document.querySelector(".formulaire-nom").textContent = nom; // Met à jour le nom du formulaire modal
-        document.querySelector('meta[name="description"]').content =
-            `Découvrez ${nom}, photographe professionnel basé à ${ville}, ${pays}, offrant ses services à partir de ${prix} € / jour.`; // Met à jour la méta-description
-
-        const profilePageHeader = document.querySelector(".apropos");
-        if (profilePageHeader) {
-            // Insère le contenu du header avec le nom, la localisation, la devise, et la vignette
-            profilePageHeader.innerHTML = `
-                <div class="informations_du_profil_photographe">
-                    <h1 class="photographe_nom">${nom}</h1>
-                    <p class="photographe_location">${ville}, ${pays}</p>
-                    <p class="photographe_description">${description}</p>
-                </div>
-                <button class="bouton bouton_cta" type="button" aria-label="Ouvrir le formulaire de contact">Contactez-moi</button>
-                <img class="photographe_miniature" src="assets/images/photographers/thumbnails/${portrait}" alt="${nom}">
-            `;
-        }
-    }
-}
-
-// Partie 3: Profil du photographe - Médias
-
-class PhotographeMedias {
-    constructor(photographes, medias) {
-        this.photographes = photographes;
-        this.medias = medias;
-    }
-
-    // Crée le contenu pour la section des médias
-    creerMediaPhotographe() {
-        const profilPageContenu = document.querySelector(".contenu-medias");
-        const galleryItems = this.medias.map(media => {
-            const mediaType = media.image
-                ? `<img class="gallery_thumbnail" src="./assets/images/photographers/samplePhotos-Small/${this.photographes.nom}/${media.image}" alt="${media.alt}">`
-                : `<video class="gallery_thumbnail" aria-label="${media.alt}"><source src="./assets/images/photographers/samplePhotos-Small/${this.photographes.nom}/${media.video}" type="video/mp4"></video>`;
-
-            return `
-                <article class="carte_gallerie">                           
-                    <a href="#" data-media="${media.id}" role="link" aria-label="View media large">
-                        <figure>${mediaType}</figure>
-                    </a>
-                    <figcaption>
-                        <h2>${media.titre}</h2>
-                        <div role="group" aria-label="Like button and number of likes">
-                            <span class="nbLike">${media.likes}</span>
-                            <button class="bouton-like" type="button" aria-label="Like" data-id="${media.id}">
-                                <span class="fas fa-heart" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </figcaption>
-                </article>
-            `;
-        }).join("");
-
-        profilPageContenu.innerHTML = `<section class="gallery">${galleryItems}</section><aside><p class="photographer_Likes"><span class="likes-compte-photographer"></span><span class="fas fa-heart" aria-hidden="true"></span></p><span>${this.photographes.prix}€ / jour</span></aside>`;
-    }
-}
+import { PhotographeHeader } from './template.js';
 
 
 // Partie 4: Total des likes et gestion des likes
@@ -180,6 +116,7 @@ const validationFormulaire = () => {
 
 // Partie 7: Lightbox pour afficher les médias en grand
 
+
 const afficherLightbox = medias => {
     // Sélectionner les éléments de la lightbox
     const lightboxWrapper = document.querySelector('.lightbox_wrapper');
@@ -207,7 +144,7 @@ const afficherLightbox = medias => {
     // Fonction pour afficher le contenu du média dans la lightbox
     const lightboxTemplate = () => {
         const mediaActuel = mediasList[indexActuel];
-        const srcPath = `./assets/images/photographers/samplePhotos-Medium/${photographes.nom}/`;
+        const srcPath = `./assets/images/photographe/simplePhotos-Medium/${photographes.nom}/`;
         const mediaContenu = mediaActuel.image
             ? `<img src="${srcPath + mediaActuel.image}" alt="${mediaActuel.alt}">`
             : `<video controls aria-label="${mediaActuel.alt}"><source src="${srcPath + mediaActuel.video}" type="video/mp4"></video>`;
@@ -301,7 +238,7 @@ const afficherMediaFiltre = mediasTemplate => {
 
 // Partie 9: Affichage du profil du photographe et de ses médias
 
-const photographeApi = new GestionDonnees("./data/photographers.json");
+const photographeApi = new GestionDonnees("./data/photographe.json");
 const photographeId = new URLSearchParams(window.location.search).get("id");
 
 const obtenirPhotographeParId = async () => {
@@ -319,7 +256,7 @@ const afficherPageProfil = async () => {
     const { photographes, medias } = await obtenirPhotographeParId();
     const headerTemplate = new PhotographeHeader(photographes);
     headerTemplate.creerPhotoprapheHeader();
-    const mediasTemplate = new PhotographeMedias(photographes, medias);
+    const mediasTemplate = new PhotographeHeader(photographes, medias);
     mediasTemplate.creerMediaPhotographe();
 
     afficherTotalLikes();

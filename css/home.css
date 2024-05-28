@@ -77,17 +77,17 @@ article a:focus{
 
 /* Partie 7: Styles responsifs */
 @media screen and (max-width: 1040px) {
-    .contenu-photographer article {
+    .contenu-photographe article {
         width: 45%;
     }
 }
 
 @media screen and (max-width: 725px) {
-    .contenu-photographers{
+    .contenu-photographe{
         margin-top: 30px;
         gap: 20px;
     }
-    .contenu-photographers article {
+    .contenu-photographe article {
         width: 100%;
     }
 }
