@@ -1,4 +1,4 @@
-/* // Filtres
+// Filtres
 const filtresTemplate = `
     <section class="contenu">
         <div class="contenu-filtres">
@@ -60,10 +60,11 @@ const formulaireTemplate = `
             </form>
         </div>
     </div>
-`; */
+`;
 
 // Lightbox
-/* const lightboxTemplate = `
+const lightboxTemplate = `
+<div class="page">
     <div class="lightbox_wrapper wrapper" aria-modal="true" role="dialog">
         <div class="lightbox" aria-label="Vue détaillée du média">
             <button class="bouton-fermer-lightbox bouton-fermer" aria-label="Fermer la boîte de dialogue"></button>
@@ -72,38 +73,35 @@ const formulaireTemplate = `
             <figure class="lightbox_media" role="media" aria-label="Média actuel"></figure>
         </div> 
     </div>
-`; */
+    </div>
+`;
 
 // Injection des templates dans le DOM
-/* document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const mainElement = document.querySelector('main');
-    mainElement.innerHTML += filtresTemplate + formulaireTemplate;
-}); */
+    mainElement.innerHTML += filtresTemplate + formulaireTemplate + lightboxTemplate;
+});
 
 // Export des templates
-//export { filtresTemplate, formulaireTemplate };
+export { filtresTemplate, formulaireTemplate, lightboxTemplate };
 
 
 
 class PhotographeHeader {
-    constructor(photographe, medias) {
-        this.photographe = photographe;
-        this.medias = medias;
+    constructor(photographes) {
+        this.photographes = photographes;
     }
 
-    creerProfile() {
-        this.creerHeader();
-        this.creerMedias();
-    }
-
-    creerPhotoprapheHeader() {
-        const { nom, ville, pays, prix, description, portrait } = this.photographe;
-        document.querySelector(".formulaire-nom").textContent = nom;
+    // Met à jour le contenu du header avec les informations du photographe
+    creerPhotographeHeader() { // Corrected function name
+        const { nom, ville, pays, prix, description, portrait } = this.photographes;
+        document.querySelector(".formulaire-nom").textContent = nom; // Met à jour le nom du formulaire modal
         document.querySelector('meta[name="description"]').content =
-            `Découvrez ${nom}, photographe professionnel basé à ${ville}, ${pays}, offrant ses services à partir de ${prix} € / jour.`;
+            `Découvrez ${nom}, photographe professionnel basé à ${ville}, ${pays}, offrant ses services à partir de ${prix} € / jour.`; // Met à jour la méta-description
 
         const profilePageHeader = document.querySelector(".apropos");
         if (profilePageHeader) {
+            // Insère le contenu du header avec le nom, la localisation, la devise, et la vignette
             profilePageHeader.innerHTML = `
                 <div class="informations_du_profil_photographe">
                     <h1 class="photographe_nom">${nom}</h1>
@@ -115,13 +113,21 @@ class PhotographeHeader {
             `;
         }
     }
+}
 
+class PhotographeMedias {
+    constructor(photographes, medias) {
+        this.photographes = photographes;
+        this.medias = medias;
+    }
+
+    // Crée le contenu pour la section des médias
     creerMediaPhotographe() {
         const profilPageContenu = document.querySelector(".contenu-medias");
-        const galleryItems = this.medias.map(media => {
+        const gallerieItems = this.medias.map(media => {
             const mediaType = media.image
-                ? `<img class="gallery_miniature" src="./assets/images/photographe/simplePhotos-Petite/${this.photographe.nom}/${media.image}" alt="${media.alt}">`
-                : `<video class="gallery_miniature" aria-label="${media.alt}"><source src="./assets/images/photographe/simplePhotos-Petite/${this.photographe.nom}/${media.video}" type="video/mp4"></video>`;
+                ? `<img class="gallerie_miniature" src="./assets/images/photographe/simplePhotos-Petite/${this.photographes.nom}/${media.image}" alt="${media.alt}">`
+                : `<video class="gallerie_miniature" aria-label="${media.alt}"><source src="./assets/images/photographe/simplePhotos-Petite/${this.photographes.nom}/${media.video}" type="video/mp4"></video>`;
 
             return `
                 <article class="carte_gallerie">                           
@@ -141,8 +147,19 @@ class PhotographeHeader {
             `;
         }).join("");
 
-        profilPageContenu.innerHTML = `<section class="gallery">${galleryItems}</section><aside><p class="photographer_Likes"><span class="likes-compte-photographer"></span><span class="fas fa-heart" aria-hidden="true"></span></p><span>${this.photographe.prix}€ / jour</span></aside>`;
+        profilPageContenu.innerHTML = `
+            <section class="gallerie">${gallerieItems}</section>
+            <aside>
+                <p class="photographer_Likes">
+                    <span class="likes-compte-photographe"></span>
+                    <span class="fas fa-heart" aria-hidden="true"></span>
+                </p>
+                <span>${this.photographes.prix}€ / jour</span>
+            </aside>
+        `;
     }
 }
 
-export { PhotographeHeader };
+export { PhotographeHeader, PhotographeMedias };
+
+

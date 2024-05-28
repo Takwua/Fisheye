@@ -1,17 +1,28 @@
 // Partie 1: Fonctionnalités générales
 
 import { obtenirDonnées, GestionDonnees, Photographe, Media, Video, MediasFactory } from './data.js';
+import { filtresTemplate, formulaireTemplate, lightboxTemplate, PhotographeHeader, PhotographeMedias } from './template.js';
 
 // Partie 2: Profil du photographe - Header
 
-import { PhotographeHeader } from './template.js';
+
+// Met à jour le contenu du header avec les informations du photographe
+
+
+// Partie 3: Profil du photographe - Médias
+
+
+// Crée le contenu pour la section des médias
+
+
+// import { PhotographeHeader } from './template.js';
 
 
 // Partie 4: Total des likes et gestion des likes
 
 const afficherTotalLikes = async () => {
     const { medias } = await obtenirPhotographeParId(); // Récupérer les données médias
-    const likesElement = document.querySelector(".likes-compte-photographer"); // Sélectionner l'élément affichant le total des likes
+    const likesElement = document.querySelector(".likes-compte-photographe"); // Sélectionner l'élément affichant le total des likes
     const tousBoutonLikes = document.querySelectorAll(".bouton-like"); // Sélectionner tous les boutons de "like"
 
     const updateTotalLikes = () => { // Fonction pour mettre à jour le total des likes
@@ -115,7 +126,6 @@ const validationFormulaire = () => {
 
 
 // Partie 7: Lightbox pour afficher les médias en grand
-
 
 const afficherLightbox = medias => {
     // Sélectionner les éléments de la lightbox
@@ -255,8 +265,8 @@ const obtenirPhotographeParId = async () => {
 const afficherPageProfil = async () => {
     const { photographes, medias } = await obtenirPhotographeParId();
     const headerTemplate = new PhotographeHeader(photographes);
-    headerTemplate.creerPhotoprapheHeader();
-    const mediasTemplate = new PhotographeHeader(photographes, medias);
+    headerTemplate.creerPhotographeHeader();
+    const mediasTemplate = new PhotographeMedias(photographes, medias);
     mediasTemplate.creerMediaPhotographe();
 
     afficherTotalLikes();

@@ -256,7 +256,7 @@ h2 {
 }
 
 /* Style pour la galerie d'images */
-.gallery {
+.gallerie {
     position: relative; 
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
@@ -625,7 +625,7 @@ article a:focus{
     }
 
     /* Ajustements pour la galerie */
-    .gallery {
+    .gallerie {
         gap: 20px; 
     }
 
