@@ -1,4 +1,4 @@
-import { obtenirDonnées, GestionDonnees, Photographe } from './data.js';
+import { GestionDonnees, Photographe } from './data.js';
 
 // Carte d'un photographe
 class cartePhotographe {

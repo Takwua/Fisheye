@@ -1,7 +1,7 @@
 // Partie 1: Fonctionnalités générales
 
-import { obtenirDonnées, GestionDonnees, Photographe, Media, Video, MediasFactory } from './data.js';
-import { filtresTemplate, formulaireTemplate, lightboxTemplate, PhotographeHeader, PhotographeMedias } from './template.js';
+import { GestionDonnees, Photographe, MediasFactory } from './data.js';
+import { PhotographeHeader, PhotographeMedias } from './template.js';
 
 // Partie 2: Profil du photographe - Header
 
@@ -113,7 +113,7 @@ const validationFormulaire = () => {
     // Fonction pour afficher des messages personnalisés selon la validité des entrées
     const afficherMessagePersonnalise = () => {
         const regexNom = /^([A-Za-z\s]{3,15})?([-]{0,1})?([A-Za-z\s]{3,15})$/; // Regex pour les noms
-        const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // Regex pour les emails
+        const regexEmail = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/; // Regex pour les emails
         const regexMessage = /^[A-Za-z0-9\s]{20,200}$/; // Regex pour les messages
 
         // Vérifier la validité de chaque entrée
