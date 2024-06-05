@@ -367,6 +367,7 @@ aside {
     height: 90%;
     padding: 25px 60px 0;
     animation: fadeIn .3s ease-in-out forwards;
+    background: var(--color-light);
 }
 
 

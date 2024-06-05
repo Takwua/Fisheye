@@ -1,6 +1,6 @@
 // Fonction pour récupérer les données d'une URL
 
-export async function obtenirDonnées(url) {
+export async function obtenirDonnees(url) {
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`Erreur : ${response.status} - ${response.statusText}`);

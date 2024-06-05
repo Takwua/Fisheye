@@ -3,20 +3,6 @@
 import { GestionDonnees, Photographe, MediasFactory } from './data.js';
 import { PhotographeHeader, PhotographeMedias } from './template.js';
 
-// Partie 2: Profil du photographe - Header
-
-
-// Met à jour le contenu du header avec les informations du photographe
-
-
-// Partie 3: Profil du photographe - Médias
-
-
-// Crée le contenu pour la section des médias
-
-
-// import { PhotographeHeader } from './template.js';
-
 
 // Partie 4: Total des likes et gestion des likes
 
@@ -101,9 +87,6 @@ const validationFormulaire = () => {
             messageFournis.setAttribute("role", "alert");
             input.setAttribute("aria-invalid", "true");
         }
-
-        // Ajoutez des logs pour voir quelles classes sont appliquées
-        console.log(input.id, 'Valide:', valider);
 
         // Mettre à jour la classe de l'entrée selon la validité
         input.classList.toggle('invalider', !valider);

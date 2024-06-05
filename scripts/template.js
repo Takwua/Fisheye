@@ -43,17 +43,17 @@ const formulaireTemplate = `
                 </div>
                 <div class="formulaire-contenu">
                     <label id="nom-label" for="nom">Nom <span aria-hidden="true">*</span></label>
-                    <input class="formField" aria-labelledby="nom-label" type="text" id="nom" name="nom" maxlength="15" required>
+                    <input class="formField" aria-labelledby="nom-label" type="text" id="nom" name="nom" maxlength="15" data-error="Minimum 3 caractères, maximum 15 caractères. Les chiffres et caractères spéciaux différents de - ne sont pas autorisés." required>
                     <span></span>
                 </div>
                 <div class="formulaire-contenu">
                     <label id="email-label" for="email">Email <span aria-hidden="true">*</span></label>
-                    <input class="formField" aria-labelledby="email-label" type="email" id="email" name="email" maxlength="100" required>
+                    <input class="formField" aria-labelledby="email-label" type="email" id="email" name="email" maxlength="100" data-error="Veuillez entrer une adresse email valide." required>
                     <span></span>
                 </div>
                 <div class="formulaire-contenu">
                     <label id="message-label" for="message">Votre message <span aria-hidden="true">*</span></label>
-                    <textarea class="formField" aria-labelledby="message-label" id="message" name="message" maxlength="200" required></textarea>
+                    <textarea class="formField" aria-labelledby="message-label" id="message" name="message" maxlength="200" data-error="Votre message doit contenir entre 20 et 200 caractères." required></textarea>
                     <span></span>
                 </div>
                 <button class="bouton bouton-envoye" type="submit" aria-label="Envoyer">Envoyer</button>
