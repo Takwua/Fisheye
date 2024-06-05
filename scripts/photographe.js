@@ -73,7 +73,7 @@ const validationFormulaire = () => {
         }
     });
 
-    const validationEntrée = (input, regex) => { // Fonction de validation des entrées
+    const validationEntree = (input, regex) => { // Fonction de validation des entrées
         const valider = regex.test(input.value); // Vérifier si l'entrée correspond au regex
         const messageErreur = input.dataset.error; // Message d'erreur pour l'entrée
         const messageFournis = input.nextElementSibling; // Où afficher le message d'erreur
@@ -100,10 +100,10 @@ const validationFormulaire = () => {
         const regexMessage = /^[A-Za-z0-9\s]{20,200}$/; // Regex pour les messages
 
         // Vérifier la validité de chaque entrée
-        validationEntrée(nom, regexNom);
-        validationEntrée(prenom, regexNom);
-        validationEntrée(email, regexEmail);
-        validationEntrée(message, regexMessage);
+        validationEntree(nom, regexNom);
+        validationEntree(prenom, regexNom);
+        validationEntree(email, regexEmail);
+        validationEntree(message, regexMessage);
     };
 };
 

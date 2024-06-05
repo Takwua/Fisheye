@@ -93,7 +93,7 @@ class PhotographeHeader {
     }
 
     // Met à jour le contenu du header avec les informations du photographe
-    creerPhotographeHeader() { // Corrected function name
+    creerPhotographeHeader() {
         const { nom, ville, pays, prix, description, portrait } = this.photographes;
         document.querySelector(".formulaire-nom").textContent = nom; // Met à jour le nom du formulaire modal
         document.querySelector('meta[name="description"]').content =
